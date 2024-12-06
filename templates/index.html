@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Period Tracker</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #f39c12, #e74c3c);
+            background-size: cover;
+            background-attachment: fixed;
+            height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 500px;
+        }
+
+        .form-title {
+            font-size: 24px;
+            margin-bottom: 20px;
+            font-weight: bold;
+            text-align: center;
+            color: #333;
+        }
+
+        .description {
+            text-align: center;
+            margin-bottom: 30px;
+            color: #666;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            font-weight: 600;
+            color: #444;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+            font-size: 14px;
+            background-color: #f9f9f9;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Tooltip styles */
+        .info-icon {
+            font-size: 16px;
+            color: #007bff;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        .tooltip {
+            visibility: hidden;
+            width: 200px;
+            background-color: #f9f9f9;
+            color: #000;
+            text-align: left;
+            border-radius: 5px;
+            padding: 10px;
+            position: absolute;
+            z-index: 1;
+            font-size: 12px;
+            box-shadow: 0px 0px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .info-icon:hover + .tooltip {
+            visibility: visible;
+        }
+
+        /* Result Section */
+        .result {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .result h2 {
+            font-size: 22px;
+            color: #333;
+        }
+
+        .result p {
+            font-size: 16px;
+            color: #444;
+        }
+
+        /* Image Section */
+        .image-container {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .image-container img {
+            width: 100%;
+            max-width: 400px;
+            border-radius: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Image Section -->
+        <div class="image-container">
+        
+        </div>
+
+        <h1 class="form-title">Go Girle!!</h1>
+        <p class="description">Don’t let your period surprise you—track it like a pro and never be caught off guard!</p>
+        
+        <form method="POST">
+            <!-- When did your last period start? -->
+            <div class="form-group">
+                <label for="start_date">When did your last period start?</label>
+                <input type="date" name="start_date" required>
+                <span class="info-icon">i</span>
+                <div class="tooltip">
+                    <p>This is the first day of your last period. Enter the date when you started your most recent period.</p>
+                </div>
+            </div>
+
+            <!-- How long does your period usually last? -->
+            <div class="form-group">
+                <label for="period_length">How long does your period usually last? (in days)</label>
+                <input type="number" name="period_length" min="1" required>
+                <span class="info-icon">i</span>
+                <div class="tooltip">
+                    <p>This is the average number of days your period lasts (e.g., 5 days).</p>
+                </div>
+            </div>
+
+            <!-- How long is your cycle? -->
+            <div class="form-group">
+                <label for="cycle_length">How long is your cycle? (in days)</label>
+                <input type="number" name="cycle_length" min="1" required>
+                <span class="info-icon">i</span>
+                <div class="tooltip">
+                    <p>This is the number of days between the start of one period to the start of your next period (e.g., 28 days).</p>
+                </div>
+            </div>
+
+            <!-- Submit Button -->
+            <button type="submit">Submit</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            <h2>Your Next Period:</h2>
+            <p><strong>Start Date:</strong> {{ result.next_period_start }}</p>
+            <p><strong>End Date:</strong> {{ result.next_period_end }}</p>
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
